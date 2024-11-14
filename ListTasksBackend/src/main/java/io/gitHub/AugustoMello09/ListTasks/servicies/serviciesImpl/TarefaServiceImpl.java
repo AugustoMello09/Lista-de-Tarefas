@@ -54,4 +54,16 @@ public class TarefaServiceImpl implements TarefaService {
 		return new TarefaDTO(tarefa);
 	}
 
+	@Override
+	@Transactional
+	public void update(TarefaRecord tarefaRecord, Long id) {
+		Tarefa tarefa = repository.findById(id)
+				.orElseThrow(() -> new ObjectNotFoundException("tarefa não encontrada"));
+		tarefa.setCost(tarefaRecord.cost());
+		LocalDate dueDate = LocalDate.parse(tarefaRecord.dueDate());
+		tarefa.setDueDate(dueDate);
+		tarefa.setName(tarefaRecord.name());
+		repository.save(tarefa);
+	}
+
 }

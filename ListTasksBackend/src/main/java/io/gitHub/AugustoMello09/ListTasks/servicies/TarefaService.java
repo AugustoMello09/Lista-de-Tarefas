@@ -12,5 +12,7 @@ public interface TarefaService {
 	List<TarefaDTO> listAll();
 	
 	TarefaDTO create(TarefaRecord tarefaRecord);
+	
+	void update(TarefaRecord tarefaRecord, Long id);
 
 }

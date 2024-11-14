@@ -1,4 +1,4 @@
-package io.gitHub.AugustoMello09.ListTasks.domain.service.serviceImpl;
+package io.gitHub.AugustoMello09.ListTasks.servicies.serviciesImpl;
 
 import java.util.Optional;
 
@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.gitHub.AugustoMello09.ListTasks.domain.entities.Tarefa;
 import io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos.TarefaDTO;
-import io.gitHub.AugustoMello09.ListTasks.domain.repositories.TarefaRepository;
-import io.gitHub.AugustoMello09.ListTasks.domain.service.TarefaService;
+import io.gitHub.AugustoMello09.ListTasks.repositories.TarefaRepository;
+import io.gitHub.AugustoMello09.ListTasks.servicies.TarefaService;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -24,5 +24,7 @@ public class TarefaServiceImpl implements TarefaService {
 		Tarefa entity = obj.orElse(null);
 		return new TarefaDTO(entity);
 	}
+	
+
 
 }

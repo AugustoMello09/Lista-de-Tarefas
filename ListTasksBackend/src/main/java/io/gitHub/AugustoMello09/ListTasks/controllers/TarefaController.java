@@ -1,5 +1,7 @@
 package io.gitHub.AugustoMello09.ListTasks.controllers;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +22,12 @@ public class TarefaController {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<TarefaDTO> findById(@PathVariable Long id) {
 		var response = service.findById(id);
+		return ResponseEntity.ok().body(response);
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<TarefaDTO>> listAll(){
+		var response = service.listAll();
 		return ResponseEntity.ok().body(response);
 	}
 

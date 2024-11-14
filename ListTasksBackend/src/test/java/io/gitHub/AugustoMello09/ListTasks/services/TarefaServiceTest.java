@@ -3,6 +3,7 @@ package io.gitHub.AugustoMello09.ListTasks.services;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
@@ -22,6 +23,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import io.gitHub.AugustoMello09.ListTasks.domain.entities.Tarefa;
 import io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos.TarefaDTO;
+import io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos.TarefaRecord;
 import io.gitHub.AugustoMello09.ListTasks.provider.TarefaProvider;
 import io.gitHub.AugustoMello09.ListTasks.repositories.TarefaRepository;
 import io.gitHub.AugustoMello09.ListTasks.servicies.exceptions.ObjectNotFoundException;
@@ -39,13 +41,14 @@ public class TarefaServiceTest {
 	private TarefaRepository repository;
 
 	private TarefaProvider tarefaProvider;
-	// private TarefaDTOProvider tarefaDTOProvider;
+	//private TarefaDTOProvider tarefaDTOProvider;
+
 
 	@BeforeEach
 	public void setUp() {
 		MockitoAnnotations.openMocks(this);
 		tarefaProvider = new TarefaProvider();
-		// tarefaDTOProvider = new TarefaDTOProvider();
+		//tarefaDTOProvider = new TarefaDTOProvider();
 		service = new TarefaServiceImpl(repository);
 	}
 
@@ -76,6 +79,30 @@ public class TarefaServiceTest {
 		when(repository.findAll()).thenReturn(tarefas);
 		List<TarefaDTO> result = service.listAll();
 		assertNotNull(result);
+	}
+	
+	@DisplayName("Deve criar uma tarefa com sucesso.")
+	@Test
+	public void whenCreateThenReturnTarefaDTO() {
+	    TarefaRecord tarefaRecord = new TarefaRecord("Nome da Tarefa", new BigDecimal("100.00"), "2023-12-31");
+
+	    Tarefa tarefa = new Tarefa();
+	    tarefa.setId(1L);
+	    tarefa.setName(tarefaRecord.name());
+	    tarefa.setCost(tarefaRecord.cost());
+	    tarefa.setDueDate(LocalDate.parse(tarefaRecord.dueDate())); 
+	    tarefa.setPosition(1); 
+
+	    when(repository.save(any(Tarefa.class))).thenReturn(tarefa);
+	    when(repository.findMaxPosition()).thenReturn(0); 
+
+	    TarefaDTO resultado = service.create(tarefaRecord);
+
+	    assertNotNull(resultado);
+	    assertEquals(tarefa.getName(), resultado.getName());
+	    assertEquals(tarefa.getCost(), resultado.getCost());
+	    assertEquals(tarefa.getDueDate(), resultado.getDueDate());
+	    assertEquals(tarefa.getPosition(), resultado.getPosition());
 	}
 
 }

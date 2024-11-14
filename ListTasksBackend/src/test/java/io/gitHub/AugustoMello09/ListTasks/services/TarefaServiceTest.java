@@ -5,6 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -63,6 +67,15 @@ public class TarefaServiceTest {
 	public void shouldReturnTarefaNotFound() {
 		when(repository.findById(ID)).thenReturn(Optional.empty());
 		assertThrows(ObjectNotFoundException.class, () -> service.findById(ID));
+	}
+	
+	@DisplayName("Deve retornar uma lista de tarefas.")
+	@Test
+	public void whenFindAllThenReturnTarefaDTO() {;
+		List<Tarefa> tarefas = Arrays.asList(new Tarefa(ID, "Estudar", BigDecimal.ZERO, LocalDate.now().plusDays(2), 0));
+		when(repository.findAll()).thenReturn(tarefas);
+		List<TarefaDTO> result = service.listAll();
+		assertNotNull(result);
 	}
 
 }

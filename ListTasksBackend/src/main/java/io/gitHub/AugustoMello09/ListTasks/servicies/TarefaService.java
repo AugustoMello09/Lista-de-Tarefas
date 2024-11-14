@@ -1,6 +1,8 @@
 package io.gitHub.AugustoMello09.ListTasks.servicies;
 
 import io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos.TarefaDTO;
+import io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos.TarefaRecord;
+
 import java.util.List;
 
 public interface TarefaService {
@@ -8,5 +10,7 @@ public interface TarefaService {
 	TarefaDTO findById(Long id);
 	
 	List<TarefaDTO> listAll();
+	
+	TarefaDTO create(TarefaRecord tarefaRecord);
 
 }

@@ -2,7 +2,11 @@ package io.gitHub.AugustoMello09.ListTasks.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -52,6 +56,17 @@ public class TarefaControllerTest {
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals(ResponseEntity.class, response.getClass());
 		assertEquals(TarefaDTO.class, response.getBody().getClass());
+	}
+
+	@DisplayName("Deve retornar uma Lista de tarefas. ")
+	@Test
+	public void shouldReturnListTarefaDTO() {
+		List<TarefaDTO> tarefas = new ArrayList<>();
+		when(service.listAll()).thenReturn(tarefas);
+		ResponseEntity<List<TarefaDTO>> response = controller.listAll();
+		assertNotNull(response);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		verify(service).listAll();
 	}
 
 }

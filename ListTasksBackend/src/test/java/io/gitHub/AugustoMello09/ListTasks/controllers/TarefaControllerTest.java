@@ -2,9 +2,13 @@ package io.gitHub.AugustoMello09.ListTasks.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +20,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos.TarefaDTO;
+import io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos.TarefaRecord;
 import io.gitHub.AugustoMello09.ListTasks.provider.TarefaDTOProvider;
 import io.gitHub.AugustoMello09.ListTasks.servicies.TarefaService;
 
@@ -34,6 +45,12 @@ public class TarefaControllerTest {
 	@Mock
 	private TarefaService service;
 
+	@Autowired
+	private MockMvc mockMvc;
+
+	@Autowired
+	private ObjectMapper objectMapper;
+
 	// private TarefaProvider tarefaProvider;
 	private TarefaDTOProvider tarefaDTOProvider;
 
@@ -43,6 +60,8 @@ public class TarefaControllerTest {
 		// tarefaProvider = new TarefaProvider();
 		tarefaDTOProvider = new TarefaDTOProvider();
 		controller = new TarefaController(service);
+		mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+		objectMapper = new ObjectMapper();
 	}
 
 	@DisplayName("Deve retornar uma tarefa. ")
@@ -67,6 +86,20 @@ public class TarefaControllerTest {
 		assertNotNull(response);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		verify(service).listAll();
+	}
+
+	@DisplayName("Deve criar uma tarefa. ")
+	@Test
+	public void shouldReturnCreatedTarefaDTOOnController() throws Exception {
+		TarefaRecord tarefaRecord = new TarefaRecord("Nome da Tarefa", new BigDecimal("100.00"), "2023-12-31");
+
+		TarefaDTO tarefaDTO = tarefaDTOProvider.criar();
+
+		when(service.create(any(TarefaRecord.class))).thenReturn(tarefaDTO);
+
+		mockMvc.perform(post("/v1/tarefas/").contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(tarefaRecord))) 
+				.andExpect(status().isCreated());
 	}
 
 }

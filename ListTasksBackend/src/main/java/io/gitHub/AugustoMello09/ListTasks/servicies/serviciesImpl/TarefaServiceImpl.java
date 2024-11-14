@@ -9,6 +9,7 @@ import io.gitHub.AugustoMello09.ListTasks.domain.entities.Tarefa;
 import io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos.TarefaDTO;
 import io.gitHub.AugustoMello09.ListTasks.repositories.TarefaRepository;
 import io.gitHub.AugustoMello09.ListTasks.servicies.TarefaService;
+import io.gitHub.AugustoMello09.ListTasks.servicies.exceptions.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -21,7 +22,7 @@ public class TarefaServiceImpl implements TarefaService {
 	@Transactional(readOnly = true)
 	public TarefaDTO findById(Long id) {
 		Optional<Tarefa> obj = repository.findById(id);
-		Tarefa entity = obj.orElse(null);
+		Tarefa entity = obj.orElseThrow(() -> new ObjectNotFoundException("Tarefa não encontrada"));
 		return new TarefaDTO(entity);
 	}
 

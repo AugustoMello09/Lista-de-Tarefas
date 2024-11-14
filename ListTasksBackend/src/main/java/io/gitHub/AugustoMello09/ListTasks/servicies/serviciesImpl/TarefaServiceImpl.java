@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class TarefaServiceImpl implements TarefaService {
-	
+
 	private final TarefaRepository repository;
 
 	@Override
@@ -24,7 +24,5 @@ public class TarefaServiceImpl implements TarefaService {
 		Tarefa entity = obj.orElse(null);
 		return new TarefaDTO(entity);
 	}
-	
-
 
 }

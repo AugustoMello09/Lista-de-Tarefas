@@ -1,5 +1,6 @@
 package io.gitHub.AugustoMello09.ListTasks.services;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -28,6 +29,7 @@ import io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos.TarefaDTO;
 import io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos.TarefaRecord;
 import io.gitHub.AugustoMello09.ListTasks.provider.TarefaProvider;
 import io.gitHub.AugustoMello09.ListTasks.repositories.TarefaRepository;
+import io.gitHub.AugustoMello09.ListTasks.servicies.exceptions.DataIntegratyViolationException;
 import io.gitHub.AugustoMello09.ListTasks.servicies.exceptions.ObjectNotFoundException;
 import io.gitHub.AugustoMello09.ListTasks.servicies.serviciesImpl.TarefaServiceImpl;
 
@@ -144,6 +146,38 @@ public class TarefaServiceTest {
 	public void shouldReturnTarefaNotFoundWhenDelete() {
 		when(repository.findById(ID)).thenReturn(Optional.empty());
 		assertThrows(ObjectNotFoundException.class, () -> service.delete(ID));
+	}
+	
+	@DisplayName("Deve retornar nome da tarefa já existe.")
+	@Test
+	public void shouldReturnDataIntegratyViolationExceptionWhenNameTarefaExist() {
+	    TarefaRecord tarefaRecord = new TarefaRecord("Nome da Tarefa", new BigDecimal("100.00"), "2023-12-31");
+	    
+	    Tarefa tarefa = new Tarefa();
+	    tarefa.setId(1L);
+	    tarefa.setName(tarefaRecord.name());
+	    tarefa.setCost(tarefaRecord.cost());
+	    tarefa.setDueDate(LocalDate.parse(tarefaRecord.dueDate())); 
+	    tarefa.setPosition(1);
+	    
+	    when(repository.findByName(tarefaRecord.name()))
+	      .thenReturn(Optional.of(tarefa));
+
+	    DataIntegratyViolationException exception = assertThrows(DataIntegratyViolationException.class, () -> {
+	        service.nameAlreadyExists(tarefaRecord);
+	    });
+
+	    assertEquals("Não é permitido criar uma tarefa com um nome já existente", exception.getMessage());
+	}
+	
+	@DisplayName("Não deve lançar exceção quando o nome da tarefa não existe")
+	@Test
+	public void shouldNotThrowExceptionWhenNameNotExists() {
+	    TarefaRecord tarefaRecord = new TarefaRecord("Nome da Tarefa", new BigDecimal("100.00"), "2023-12-31");
+	    
+	    when(repository.findByName(tarefaRecord.name())).thenReturn(Optional.empty());
+	    
+	    assertDoesNotThrow(() -> service.nameAlreadyExists(tarefaRecord));
 	}
 
 }

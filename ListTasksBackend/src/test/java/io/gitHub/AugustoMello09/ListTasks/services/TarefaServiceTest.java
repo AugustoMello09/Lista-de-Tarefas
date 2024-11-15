@@ -130,5 +130,20 @@ public class TarefaServiceTest {
 		when(repository.findById(ID)).thenReturn(Optional.empty());
 		assertThrows(ObjectNotFoundException.class, () -> service.update(tarefaRecord, ID));
 	}
+	
+	@DisplayName("Deve deletar uma tarefa com sucesso.")
+	@Test
+	public void shouldDeleteTarefaWithSuccess() {
+		Tarefa tarefa = tarefaProvider.criar();
+		when(repository.findById(ID)).thenReturn(Optional.of(tarefa));
+		service.delete(ID);
+	}
+
+	@DisplayName("Deve não encontrar uma tarefa ao deletar.")
+	@Test
+	public void shouldReturnTarefaNotFoundWhenDelete() {
+		when(repository.findById(ID)).thenReturn(Optional.empty());
+		assertThrows(ObjectNotFoundException.class, () -> service.delete(ID));
+	}
 
 }

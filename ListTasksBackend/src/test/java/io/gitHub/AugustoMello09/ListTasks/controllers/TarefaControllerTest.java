@@ -115,5 +115,16 @@ public class TarefaControllerTest {
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		verify(service, times(1)).update(tarefaRecord, ID);
 	}
+	
+	@DisplayName("Deve deletar uma tarefa. ")
+	@Test
+	public void shouldDeleteTarefaWithSuccess() {
+		doNothing().when(service).delete(ID);
+		ResponseEntity<Void> response = controller.delete(ID);
+		assertNotNull(response);
+		assertEquals(ResponseEntity.class, response.getClass());
+		assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+		verify(service, times(1)).delete(ID);
+	}
 
 }

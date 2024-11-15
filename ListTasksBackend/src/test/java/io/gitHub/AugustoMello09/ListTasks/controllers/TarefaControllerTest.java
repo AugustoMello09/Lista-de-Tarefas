@@ -3,6 +3,8 @@ package io.gitHub.AugustoMello09.ListTasks.controllers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -100,6 +102,18 @@ public class TarefaControllerTest {
 		mockMvc.perform(post("/v1/tarefas/").contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(tarefaRecord))) 
 				.andExpect(status().isCreated());
+	}
+	
+	@DisplayName("Deve atualizar a tarefa. ")
+	@Test
+	public void shouldReturnUpdateTarefa() {
+		TarefaRecord tarefaRecord = new TarefaRecord("Nome da Tarefa", new BigDecimal("100.00"), "2023-12-31");
+		doNothing().when(service).update(tarefaRecord, ID);
+		ResponseEntity<Void> response = controller.update(tarefaRecord, ID);
+		assertNotNull(response);
+		assertEquals(ResponseEntity.class, response.getClass());
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		verify(service, times(1)).update(tarefaRecord, ID);
 	}
 
 }

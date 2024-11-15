@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
@@ -103,6 +105,30 @@ public class TarefaServiceTest {
 	    assertEquals(tarefa.getCost(), resultado.getCost());
 	    assertEquals(tarefa.getDueDate(), resultado.getDueDate());
 	    assertEquals(tarefa.getPosition(), resultado.getPosition());
+	}
+	
+	@DisplayName("Atualização Deve retornar sucesso.")
+	@Test
+	public void shouldUpdateReturnSuccess() {
+		
+		TarefaRecord tarefaRecord = new TarefaRecord("Nome da Tarefa", new BigDecimal("100.00"), "2023-12-31");
+		Tarefa tarefa = tarefaProvider.criar();
+		
+		when(repository.findById(ID)).thenReturn(Optional.of(tarefa));
+		when(repository.save(any(Tarefa.class))).thenReturn(tarefa);
+		
+		service.update(tarefaRecord, ID);
+		
+		verify(repository, times(1)).findById(ID);
+		verify(repository, times(1)).save(any(Tarefa.class));
+	}
+	
+	@DisplayName("Atualização Deve retornar tarefa não encontrada.")
+	@Test
+	public void shouldUpdateReturnTarefaNotFound() {
+		TarefaRecord tarefaRecord = new TarefaRecord("Nome da Tarefa", new BigDecimal("100.00"), "2023-12-31");
+		when(repository.findById(ID)).thenReturn(Optional.empty());
+		assertThrows(ObjectNotFoundException.class, () -> service.update(tarefaRecord, ID));
 	}
 
 }

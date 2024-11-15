@@ -2,6 +2,9 @@ package io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos;
 
 import java.math.BigDecimal;
 
-public record TarefaRecord(String name, BigDecimal cost, String dueDate) {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public record TarefaRecord(@NotBlank(message = "Campo obrigatório") String name, @NotNull(message = "Campo obrigatório") BigDecimal cost, @NotBlank(message = "Campo obrigatório") String dueDate) {
 
 }

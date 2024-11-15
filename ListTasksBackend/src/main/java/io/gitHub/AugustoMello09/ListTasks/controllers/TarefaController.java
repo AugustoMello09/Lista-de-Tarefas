@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos.TarefaDTO;
 import io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos.TarefaRecord;
 import io.gitHub.AugustoMello09.ListTasks.servicies.TarefaService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -39,7 +40,7 @@ public class TarefaController {
 	}
 
 	@PostMapping
-	public ResponseEntity<TarefaDTO> create(@RequestBody TarefaRecord tarefa){
+	public ResponseEntity<TarefaDTO> create(@Valid @RequestBody TarefaRecord tarefa){
 		var newObj = service.create(tarefa);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}")
@@ -49,7 +50,7 @@ public class TarefaController {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Void> update(@RequestBody TarefaRecord tarefa,@PathVariable Long id){
+	public ResponseEntity<Void> update(@Valid @RequestBody TarefaRecord tarefa,@PathVariable Long id){
 		service.update(tarefa, id);
 		return ResponseEntity.ok().build();
 	}

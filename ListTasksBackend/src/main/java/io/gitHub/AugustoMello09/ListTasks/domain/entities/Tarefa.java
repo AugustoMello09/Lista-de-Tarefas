@@ -30,7 +30,7 @@ public class Tarefa implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = true)
+	@Column(nullable = true, unique = true)
 	private String name;
 
 	private BigDecimal cost;

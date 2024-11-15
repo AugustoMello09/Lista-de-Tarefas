@@ -13,6 +13,7 @@ import io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos.TarefaDTO;
 import io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos.TarefaRecord;
 import io.gitHub.AugustoMello09.ListTasks.repositories.TarefaRepository;
 import io.gitHub.AugustoMello09.ListTasks.servicies.TarefaService;
+import io.gitHub.AugustoMello09.ListTasks.servicies.exceptions.DataIntegratyViolationException;
 import io.gitHub.AugustoMello09.ListTasks.servicies.exceptions.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
 
@@ -40,6 +41,7 @@ public class TarefaServiceImpl implements TarefaService {
 	@Override
 	@Transactional
 	public TarefaDTO create(TarefaRecord tarefaRecord) {
+		nameAlreadyExists(tarefaRecord);
 		Tarefa tarefa = new Tarefa();
 		tarefa.setName(tarefaRecord.name());
 		tarefa.setCost(tarefaRecord.cost());
@@ -70,6 +72,13 @@ public class TarefaServiceImpl implements TarefaService {
 	public void delete(Long id) {
 		findById(id);
 		repository.deleteById(id);
+	}
+	
+	public void nameAlreadyExists(TarefaRecord tarefaRecord) {
+		Optional<Tarefa> entity = repository.findByName(tarefaRecord.name());
+		if (entity.isPresent()) {
+			throw new DataIntegratyViolationException("Não é permitido criar uma tarefa com um nome já existente");
+		}
 	}
 
 }

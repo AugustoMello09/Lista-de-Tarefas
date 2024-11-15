@@ -66,4 +66,10 @@ public class TarefaServiceImpl implements TarefaService {
 		repository.save(tarefa);
 	}
 
+	@Override
+	public void delete(Long id) {
+		findById(id);
+		repository.deleteById(id);
+	}
+
 }

@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,13 +31,13 @@ public class TarefaController {
 		var response = service.findById(id);
 		return ResponseEntity.ok().body(response);
 	}
-	
+
 	@GetMapping
 	public ResponseEntity<List<TarefaDTO>> listAll(){
 		var response = service.listAll();
 		return ResponseEntity.ok().body(response);
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<TarefaDTO> create(@RequestBody TarefaRecord tarefa){
 		var newObj = service.create(tarefa);
@@ -46,11 +47,17 @@ public class TarefaController {
 				.toUri();
 		return ResponseEntity.created(uri).body(newObj);
 	}
-	
+
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Void> update(@RequestBody TarefaRecord tarefa,@PathVariable Long id){
 		service.update(tarefa, id);
 		return ResponseEntity.ok().build();
+	}
+	
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
 	}
 
 }

@@ -14,5 +14,7 @@ public interface TarefaService {
 	TarefaDTO create(TarefaRecord tarefaRecord);
 	
 	void update(TarefaRecord tarefaRecord, Long id);
+	
+	void delete(Long id);
 
 }

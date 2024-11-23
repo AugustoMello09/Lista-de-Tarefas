@@ -64,6 +64,7 @@ public class TarefaServiceImpl implements TarefaService {
 		tarefa.setCost(tarefaRecord.cost());
 		LocalDate dueDate = LocalDate.parse(tarefaRecord.dueDate());
 		tarefa.setDueDate(dueDate);
+		nameAlreadyExists(tarefaRecord);
 		tarefa.setName(tarefaRecord.name());
 		repository.save(tarefa);
 	}

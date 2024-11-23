@@ -34,7 +34,7 @@ public class TarefaServiceImpl implements TarefaService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<TarefaDTO> listAll() {
-		List<Tarefa> tarefas = repository.findAll();
+		List<Tarefa> tarefas = repository.findAllByOrderByPosition();
 		return tarefas.stream().map(tarefa -> new TarefaDTO(tarefa)).collect(Collectors.toList());
 	}
 
@@ -73,12 +73,32 @@ public class TarefaServiceImpl implements TarefaService {
 		findById(id);
 		repository.deleteById(id);
 	}
-	
+
 	public void nameAlreadyExists(TarefaRecord tarefaRecord) {
 		Optional<Tarefa> entity = repository.findByName(tarefaRecord.name());
 		if (entity.isPresent()) {
 			throw new DataIntegratyViolationException("Não é permitido criar uma tarefa com um nome já existente");
 		}
+	}
+
+	@Override
+	@Transactional
+	public void moveTarefa(int sourceIndex, int destinationIndex) {
+		List<Tarefa> tarefas = repository.findAllByOrderByPosition();
+
+		Tarefa obj = tarefas.remove(sourceIndex);
+
+		tarefas.add(destinationIndex, obj);
+
+		int min = sourceIndex < destinationIndex ? sourceIndex : destinationIndex;
+
+		int max = sourceIndex < destinationIndex ? destinationIndex : sourceIndex;
+
+		for (int i = min; i <= max; i++) {
+			Long tarefaId = tarefas.get(i).getId();
+			repository.updateBelongingPosition(tarefaId, i);
+		}
+
 	}
 
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos.MoveTarefaRecord;
 import io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos.TarefaDTO;
 import io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos.TarefaRecord;
 import io.gitHub.AugustoMello09.ListTasks.servicies.TarefaService;
@@ -59,6 +60,12 @@ public class TarefaController {
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@PostMapping("/move")
+	public ResponseEntity<Void> moveTarefa(@RequestBody MoveTarefaRecord moveDTO) {
+	    service.moveTarefa(moveDTO.sourceIndex(), moveDTO.destinationIndex());
+	    return ResponseEntity.ok().build();
 	}
 
 }

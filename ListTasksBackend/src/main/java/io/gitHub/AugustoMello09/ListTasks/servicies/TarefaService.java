@@ -16,5 +16,7 @@ public interface TarefaService {
 	void update(TarefaRecord tarefaRecord, Long id);
 	
 	void delete(Long id);
+	
+	void moveTarefa(int sourceIndex, int destinationIndex);
 
 }

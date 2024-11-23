@@ -1,0 +1,1 @@
+INSERT INTO tb_tarefa (name, cost, due_date, position) VALUES ('Teste prático - lista de tarefas', 0, '2024-11-30', 0);

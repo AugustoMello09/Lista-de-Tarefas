@@ -81,7 +81,7 @@ public class TarefaServiceTest {
 	@Test
 	public void whenFindAllThenReturnTarefaDTO() {;
 		List<Tarefa> tarefas = Arrays.asList(new Tarefa(ID, "Estudar", BigDecimal.ZERO, LocalDate.now().plusDays(2), 0));
-		when(repository.findAll()).thenReturn(tarefas);
+		when(repository.findAllByOrderByPosition()).thenReturn(tarefas);
 		List<TarefaDTO> result = service.listAll();
 		assertNotNull(result);
 	}

@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -178,6 +179,37 @@ public class TarefaServiceTest {
 	    when(repository.findByName(tarefaRecord.name())).thenReturn(Optional.empty());
 	    
 	    assertDoesNotThrow(() -> service.nameAlreadyExists(tarefaRecord));
+	}
+	
+	@DisplayName("Deve mover a tarefa na lista com sucesso")
+	@Test
+	public void shouldMoveTeskWithSuccess() {
+		List<Tarefa> tarefas = new ArrayList<>();
+		
+		Tarefa tarefa1 = new Tarefa();
+		tarefa1.setId(1L);
+		tarefa1.setName("Tarefa Teste");
+		tarefa1.setPosition(0);
+		
+		Tarefa tarefa2 = new Tarefa();
+		tarefa2.setId(2L);
+		tarefa2.setName("Tarefa Teste");
+		tarefa2.setPosition(1);
+		
+		tarefas.add(tarefa1);
+		tarefas.add(tarefa2);
+		
+		when(repository.findAllByOrderByPosition()).thenReturn(tarefas);
+		
+		int sourceIndex = 0; 
+	    int destinationIndex = 1; 
+	    
+	    service.moveTarefa(sourceIndex, destinationIndex);
+	    
+	    verify(repository).findAllByOrderByPosition();
+	    
+	    verify(repository).updateBelongingPosition(2L, 0); 
+        verify(repository).updateBelongingPosition(1L, 1);
 	}
 
 }

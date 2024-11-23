@@ -31,6 +31,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos.MoveTarefaRecord;
 import io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos.TarefaDTO;
 import io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos.TarefaRecord;
 import io.gitHub.AugustoMello09.ListTasks.provider.TarefaDTOProvider;
@@ -125,6 +126,19 @@ public class TarefaControllerTest {
 		assertEquals(ResponseEntity.class, response.getClass());
 		assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
 		verify(service, times(1)).delete(ID);
+	}
+	
+	@DisplayName("Deve mover a tarefa na lista. ")
+	@Test
+	public void shouldMoveTarefaWithSuccess() throws Exception {
+		
+		MoveTarefaRecord move = new MoveTarefaRecord(0, 1);
+		doNothing().when(service).moveTarefa(0, 1);
+		ResponseEntity<Void> response = controller.moveTarefa(move);
+		assertNotNull(response);
+		assertEquals(ResponseEntity.class, response.getClass());
+		assertEquals(HttpStatus.OK, response.getStatusCode()); 
+		verify(service).moveTarefa(0, 1);
 	}
 
 }

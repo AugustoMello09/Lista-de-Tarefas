@@ -1,12 +1,15 @@
 package io.gitHub.AugustoMello09.ListTasks.servicies.serviciesImpl;
 
+import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ReflectionUtils;
 
 import io.gitHub.AugustoMello09.ListTasks.domain.entities.Tarefa;
 import io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos.TarefaDTO;
@@ -41,7 +44,7 @@ public class TarefaServiceImpl implements TarefaService {
 	@Override
 	@Transactional
 	public TarefaDTO create(TarefaRecord tarefaRecord) {
-		nameAlreadyExists(tarefaRecord);
+		nameAlreadyExists(tarefaRecord.name());
 		Tarefa tarefa = new Tarefa();
 		tarefa.setName(tarefaRecord.name());
 		tarefa.setCost(tarefaRecord.cost());
@@ -64,7 +67,7 @@ public class TarefaServiceImpl implements TarefaService {
 		tarefa.setCost(tarefaRecord.cost());
 		LocalDate dueDate = LocalDate.parse(tarefaRecord.dueDate());
 		tarefa.setDueDate(dueDate);
-		nameAlreadyExists(tarefaRecord);
+		nameAlreadyExists(tarefaRecord.name());
 		tarefa.setName(tarefaRecord.name());
 		repository.save(tarefa);
 	}
@@ -75,8 +78,8 @@ public class TarefaServiceImpl implements TarefaService {
 		repository.deleteById(id);
 	}
 
-	public void nameAlreadyExists(TarefaRecord tarefaRecord) {
-		Optional<Tarefa> entity = repository.findByName(tarefaRecord.name());
+	public void nameAlreadyExists(String name) {
+		Optional<Tarefa> entity = repository.findByName(name);
 		if (entity.isPresent()) {
 			throw new DataIntegratyViolationException("Não é permitido criar uma tarefa com um nome já existente");
 		}
@@ -100,6 +103,29 @@ public class TarefaServiceImpl implements TarefaService {
 			repository.updateBelongingPosition(tarefaId, i);
 		}
 
+	}
+	
+	@Override
+	public void patchUpdate(Map<String, Object> fields, Long id) {
+		Tarefa tarefa = repository.findById(id)
+				.orElseThrow(() -> new ObjectNotFoundException("Tarefa não encontrada"));
+		if (fields.containsKey("name")) {
+	        String newName = (String) fields.get("name"); 
+	        nameAlreadyExists(newName); 
+	    }
+		merge(fields, tarefa);
+		repository.save(tarefa);
+	}
+	
+	private void merge(Map<String, Object> fields, Tarefa tarefa) {
+	    fields.forEach((propertyName, propertyValue) -> {
+	        Field field = ReflectionUtils.findField(Tarefa.class, propertyName);
+	        if (field != null) {
+	            field.setAccessible(true);
+	            Object newValue = propertyValue;
+	            ReflectionUtils.setField(field, tarefa, newValue);
+	        }
+	    });
 	}
 
 }

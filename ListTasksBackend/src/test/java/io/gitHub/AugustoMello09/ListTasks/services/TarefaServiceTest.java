@@ -13,7 +13,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -165,7 +167,7 @@ public class TarefaServiceTest {
 	      .thenReturn(Optional.of(tarefa));
 
 	    DataIntegratyViolationException exception = assertThrows(DataIntegratyViolationException.class, () -> {
-	        service.nameAlreadyExists(tarefaRecord);
+	        service.nameAlreadyExists(tarefaRecord.name());
 	    });
 
 	    assertEquals("Não é permitido criar uma tarefa com um nome já existente", exception.getMessage());
@@ -178,7 +180,7 @@ public class TarefaServiceTest {
 	    
 	    when(repository.findByName(tarefaRecord.name())).thenReturn(Optional.empty());
 	    
-	    assertDoesNotThrow(() -> service.nameAlreadyExists(tarefaRecord));
+	    assertDoesNotThrow(() -> service.nameAlreadyExists(tarefaRecord.name()));
 	}
 	
 	@DisplayName("Deve mover a tarefa na lista com sucesso")
@@ -210,6 +212,30 @@ public class TarefaServiceTest {
 	    
 	    verify(repository).updateBelongingPosition(2L, 0); 
         verify(repository).updateBelongingPosition(1L, 1);
+	}
+	
+	@DisplayName("Deve aplicar com sucesso o patch de atualização em uma tarefa existente.")
+	@Test
+	public void shouldApplyPatchToUpdateTarefa() {
+		Tarefa tarefa = tarefaProvider.criar();
+		Map<String, Object> fields = new HashMap<>();
+		fields.put("name", "teste 1");
+		when(repository.findById(ID)).thenReturn(Optional.of(tarefa));
+		when(repository.save(any(Tarefa.class))).thenReturn(tarefa);
+		
+		service.patchUpdate(fields, ID);
+		
+		verify(repository, times(1)).findById(ID);
+		verify(repository, times(1)).save(any(Tarefa.class));
+	}
+
+	@DisplayName("Deve retornar tarefa não encontrado ao tentar aplicar patch de atualização.")
+	@Test
+	public void shouldReturnTarefaNotFoundWhenApplyingPatchToUpdate() {
+		Map<String, Object> fields = new HashMap<>();
+		fields.put("name", "teste 1");
+		when(repository.findById(ID)).thenReturn(Optional.empty());
+		assertThrows(ObjectNotFoundException.class, () -> service.patchUpdate(fields, ID));
 	}
 
 }

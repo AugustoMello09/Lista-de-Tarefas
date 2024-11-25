@@ -12,7 +12,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -140,5 +142,19 @@ public class TarefaControllerTest {
 		assertEquals(HttpStatus.OK, response.getStatusCode()); 
 		verify(service).moveTarefa(0, 1);
 	}
+	
+	@DisplayName("Deve conseguir atualizar parcialmete um usuário. ")
+	@Test
+	public void shouldPatchUpdateUser() {
+		Map<String, Object> fields = new HashMap<>();
+	    fields.put("name", "teste 1");
+	    doNothing().when(service).patchUpdate(fields, ID);
+	    ResponseEntity<TarefaDTO> response = controller.patchUpdate(fields, ID);
+		assertNotNull(response);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals(ResponseEntity.class, response.getClass());
+	}
+	
+	
 
 }

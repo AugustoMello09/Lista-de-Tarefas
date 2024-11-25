@@ -2,10 +2,12 @@ package io.gitHub.AugustoMello09.ListTasks.controllers;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -75,6 +77,13 @@ public class TarefaController {
 	public ResponseEntity<Void> moveTarefa(@RequestBody MoveTarefaRecord moveDTO) {
 	    service.moveTarefa(moveDTO.sourceIndex(), moveDTO.destinationIndex());
 	    return ResponseEntity.ok().build();
+	}
+	
+	@Operation(summary = "Atualiza parcialmente uma Tarefa DTO.")
+	@PatchMapping(value = "/{id}")
+	public ResponseEntity<TarefaDTO> patchUpdate(@RequestBody Map<String, Object> fields, @PathVariable Long id) {
+		service.patchUpdate(fields, id);
+		return ResponseEntity.ok().build();
 	}
 
 }

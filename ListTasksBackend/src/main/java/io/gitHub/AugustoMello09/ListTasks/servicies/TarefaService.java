@@ -1,9 +1,10 @@
 package io.gitHub.AugustoMello09.ListTasks.servicies;
 
+import java.util.List;
+import java.util.Map;
+
 import io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos.TarefaDTO;
 import io.gitHub.AugustoMello09.ListTasks.domain.entities.dtos.TarefaRecord;
-
-import java.util.List;
 
 public interface TarefaService {
 	
@@ -18,5 +19,7 @@ public interface TarefaService {
 	void delete(Long id);
 	
 	void moveTarefa(int sourceIndex, int destinationIndex);
+	
+	void patchUpdate(Map<String, Object> fields, Long id);
 
 }

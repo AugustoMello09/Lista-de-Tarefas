@@ -1,6 +1,7 @@
 package io.gitHub.AugustoMello09.ListTasks.servicies.serviciesImpl;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -104,28 +105,37 @@ public class TarefaServiceImpl implements TarefaService {
 		}
 
 	}
-	
+
 	@Override
 	public void patchUpdate(Map<String, Object> fields, Long id) {
 		Tarefa tarefa = repository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("Tarefa não encontrada"));
 		if (fields.containsKey("name")) {
-	        String newName = (String) fields.get("name"); 
-	        nameAlreadyExists(newName); 
-	    }
+			String newName = (String) fields.get("name");
+			nameAlreadyExists(newName);
+		}
 		merge(fields, tarefa);
 		repository.save(tarefa);
 	}
-	
+
 	private void merge(Map<String, Object> fields, Tarefa tarefa) {
-	    fields.forEach((propertyName, propertyValue) -> {
-	        Field field = ReflectionUtils.findField(Tarefa.class, propertyName);
-	        if (field != null) {
-	            field.setAccessible(true);
-	            Object newValue = propertyValue;
-	            ReflectionUtils.setField(field, tarefa, newValue);
-	        }
-	    });
+		fields.forEach((propertyName, propertyValue) -> {
+			Field field = ReflectionUtils.findField(Tarefa.class, propertyName);
+			if (field != null) {
+				field.setAccessible(true);
+
+				Object newValue = propertyValue;
+				if (field.getType().equals(BigDecimal.class)) {
+					newValue = new BigDecimal(propertyValue.toString());
+				} else if (field.getType().equals(LocalDate.class)) {
+					newValue = LocalDate.parse(propertyValue.toString());
+				} else if (field.getType().equals(String.class)) {
+					newValue = propertyValue.toString();
+				}
+
+				ReflectionUtils.setField(field, tarefa, newValue);
+			}
+		});
 	}
 
 }

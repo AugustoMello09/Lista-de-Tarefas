@@ -8,7 +8,7 @@ import { TarefaInsert } from '../shared/model/tarefaInsert.model';
 @Injectable({
   providedIn: 'root'
 })
-export class TerefaService {
+export class TarefaService {
 
   baseUrl: string = environment.baseUrl;
 

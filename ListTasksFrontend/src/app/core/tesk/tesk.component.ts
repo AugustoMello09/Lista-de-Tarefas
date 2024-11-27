@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Tarefa } from '../shared/model/tarefa.model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { MatDialog } from '@angular/material/dialog';
+import { CriarTarefaComponent } from '../shared/components/criar-tarefa/criar-tarefa.component';
 
 @Component({
   selector: 'app-tesk',
@@ -14,7 +16,7 @@ export class TeskComponent implements OnInit {
   public dragging: boolean = false;
   public draggedIndex: number | null = null;
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
@@ -24,7 +26,7 @@ export class TeskComponent implements OnInit {
   }
 
   public open(): void {
-  
+    this.dialog.open(CriarTarefaComponent);
   }
 
   public atualizarTarefa(id: number): void {

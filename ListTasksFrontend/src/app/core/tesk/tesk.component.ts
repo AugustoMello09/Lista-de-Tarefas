@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Tarefa } from '../model/tarefa.model';
+import { Tarefa } from '../shared/model/tarefa.model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 @Component({

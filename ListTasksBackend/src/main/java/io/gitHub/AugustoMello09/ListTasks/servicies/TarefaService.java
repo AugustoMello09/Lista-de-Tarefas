@@ -20,6 +20,6 @@ public interface TarefaService {
 	
 	void moveTarefa(int sourceIndex, int destinationIndex);
 	
-	void patchUpdate(Map<String, Object> fields, Long id);
+	TarefaDTO patchUpdate(Map<String, Object> fields, Long id);
 
 }

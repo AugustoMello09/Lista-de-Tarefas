@@ -148,7 +148,8 @@ public class TarefaControllerTest {
 	public void shouldPatchUpdateUser() {
 		Map<String, Object> fields = new HashMap<>();
 	    fields.put("name", "teste 1");
-	    doNothing().when(service).patchUpdate(fields, ID);
+	    TarefaDTO tarefaDTO = new TarefaDTO();
+	    when(service.patchUpdate(fields, ID)).thenReturn(tarefaDTO);
 	    ResponseEntity<TarefaDTO> response = controller.patchUpdate(fields, ID);
 		assertNotNull(response);
 		assertEquals(HttpStatus.OK, response.getStatusCode());

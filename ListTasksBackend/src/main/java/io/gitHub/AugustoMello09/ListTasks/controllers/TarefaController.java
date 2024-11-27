@@ -82,8 +82,8 @@ public class TarefaController {
 	@Operation(summary = "Atualiza parcialmente uma Tarefa DTO.")
 	@PatchMapping(value = "/{id}")
 	public ResponseEntity<TarefaDTO> patchUpdate(@RequestBody Map<String, Object> fields, @PathVariable Long id) {
-		service.patchUpdate(fields, id);
-		return ResponseEntity.ok().build();
+		var response = service.patchUpdate(fields, id);
+		return ResponseEntity.ok().body(response);
 	}
 
 }

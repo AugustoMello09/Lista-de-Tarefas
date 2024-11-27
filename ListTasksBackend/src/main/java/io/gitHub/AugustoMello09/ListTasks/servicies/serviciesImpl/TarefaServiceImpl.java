@@ -107,7 +107,7 @@ public class TarefaServiceImpl implements TarefaService {
 	}
 
 	@Override
-	public void patchUpdate(Map<String, Object> fields, Long id) {
+	public TarefaDTO patchUpdate(Map<String, Object> fields, Long id) {
 		Tarefa tarefa = repository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("Tarefa não encontrada"));
 		if (fields.containsKey("name")) {
@@ -116,6 +116,7 @@ public class TarefaServiceImpl implements TarefaService {
 		}
 		merge(fields, tarefa);
 		repository.save(tarefa);
+		return new TarefaDTO(tarefa);
 	}
 
 	private void merge(Map<String, Object> fields, Tarefa tarefa) {

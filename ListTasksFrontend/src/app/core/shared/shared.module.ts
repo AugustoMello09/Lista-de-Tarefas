@@ -5,6 +5,7 @@ import { HeaderComponent } from './layout/header/header.component';
 import { MaterialModule } from 'src/app/material.module';
 import { CriarTarefaComponent } from './components/criar-tarefa/criar-tarefa.component';
 import { FormsModule } from '@angular/forms';
+import { UpdateTarefaComponent } from './components/update-tarefa/update-tarefa.component';
 
 
 
@@ -12,7 +13,8 @@ import { FormsModule } from '@angular/forms';
   declarations: [
     FooterComponent,
     HeaderComponent,
-    CriarTarefaComponent
+    CriarTarefaComponent,
+    UpdateTarefaComponent
   ],
   imports: [
     CommonModule,

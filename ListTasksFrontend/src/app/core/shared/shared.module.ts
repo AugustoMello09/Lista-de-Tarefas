@@ -6,6 +6,7 @@ import { MaterialModule } from 'src/app/material.module';
 import { CriarTarefaComponent } from './components/criar-tarefa/criar-tarefa.component';
 import { FormsModule } from '@angular/forms';
 import { UpdateTarefaComponent } from './components/update-tarefa/update-tarefa.component';
+import { ExcluirTarefaComponent } from './components/excluir-tarefa/excluir-tarefa.component';
 
 
 
@@ -14,7 +15,8 @@ import { UpdateTarefaComponent } from './components/update-tarefa/update-tarefa.
     FooterComponent,
     HeaderComponent,
     CriarTarefaComponent,
-    UpdateTarefaComponent
+    UpdateTarefaComponent,
+    ExcluirTarefaComponent
   ],
   imports: [
     CommonModule,

@@ -5,19 +5,19 @@
     <br>
     <br><br>
     <p align="center">
-      <a href="#-sobre">Sobre</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-      <a href="#-back">Backend</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-      <a href="#-execB">Execução do projeto Backend</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-      <a href="#-execF">Execução do projeto Frontend</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-      <a href="#-execD">Execução o Docker-compose</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-      <a href="#-tex">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-      <a href="#-contato">Entre em contato</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+      <a href="#sobre">Sobre</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+      <a href="#back">Backend</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+      <a href="#execB">Execução do projeto Backend</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+      <a href="#execF">Execução do projeto Frontend</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+      <a href="#execD">Execução o Docker-compose</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+      <a href="#tec">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+      <a href="#contato">Entre em contato</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   </p>
 </h3>
 
 <hr>
 
-<h3 id="#-sobre"> Sobre </h3>
+<h3 id="sobre"> Sobre </h3>
 
 Este projeto é uma aplicação Full Stack para uma Lista de Tarefas, desenvolvida utilizando Java com Spring Boot 3+ no backend e Angular no frontend. O objetivo é oferecer uma interface prática e moderna, permitindo aos usuários criar, editar, excluir e reorganizar tarefas de forma dinâmica, usando funcionalidades de "drag and drop".
 
@@ -25,7 +25,7 @@ https://github.com/user-attachments/assets/065c139e-fec5-42ee-9fa3-9819f26f9920
 
 <hr>
 
-<h3 id="#-back"> Backend 🔧 </h3>
+<h3 id="back"> Backend 🔧 </h3>
 
 <h2> Projeto lista de tarefas 🧱 </h2>
 
@@ -82,7 +82,7 @@ __Acesse a documentação do projeto:__
 
 <hr>
 
-<h3 id="#-execB"> Execução do projeto Backend 🤓 </h3>
+<h3 id="execB"> Execução do projeto Backend 🤓 </h3>
 
 ## Execute o projeto 👁‍🗨
 
@@ -131,7 +131,7 @@ docker run -d -p 8080:8080 --name backend augustomello09/list-task-backend:lates
 ~~~~~~
 
 
-<h3 id="#-execF"> Execução do projeto Frontend 🤪 </h3>
+<h3 id="execF"> Execução do projeto Frontend 🤪 </h3>
 
 ## Execute o projeto 👁
 
@@ -172,7 +172,7 @@ docker run -d -p 4200:4200 --name backend augustomello09/augustomello09/list-tas
 
 <hr>
 
-<h3 id="#-execD"> Execução do com docker-compose  🐳</h3>
+<h3 id="execD"> Execução do com docker-compose  🐳</h3>
 
 ### Execute o projeto 👁
 
@@ -188,7 +188,7 @@ git clone https://github.com/AugustoMello09/Lista-de-Tarefas.git
 docker-compose up -d
 ~~~~~~
 
-<h3 id="#-tec"> Tecnologias </h3>
+<h3 id="tec"> Tecnologias </h3>
 
 <div style="display: inline_block"><br>
 
@@ -204,7 +204,7 @@ src= https://raw.githubusercontent.com/devicons/devicon/1119b9f84c0290e0f0b38982
 
 <hr>
 
-<h3 id="#-contato"> Entre em contato </h3>
+<h3 id="contato"> Entre em contato </h3>
 
 ### contato
 
